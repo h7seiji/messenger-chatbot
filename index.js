@@ -91,6 +91,38 @@ function handleMessage(sender_psid, received_message) {
     response = {
       "text": `Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.`,
     }
+	
+	// Send the response message
+    callSendAPI(sender_psid, response); 
+	
+	response2 = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Escolha um de nossos aplicativos",
+            "subtitle": "Tap a button to answer.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Yes!",
+                "payload": "yes",
+              },
+              {
+                "type": "postback",
+                "title": "No!",
+                "payload": "no",
+              }
+            ],
+          }]
+        }
+      }
+    }
+	
+	// Send the response message
+    callSendAPI(sender_psid, response2); 
+  
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -119,10 +151,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     }
-  } 
-  
-  // Send the response message
-  callSendAPI(sender_psid, response);    
+  }    
 }
 
 // Handles messaging_postbacks events
