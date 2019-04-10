@@ -103,7 +103,7 @@ function handleMessage(sender_psid, received_message) {
             "buttons": [
               {
                 "type": "postback",
-				"url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
+                "url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
                 "title": "Centauro",
                 "payload": "first",
               },
@@ -111,12 +111,12 @@ function handleMessage(sender_psid, received_message) {
                 "type": "postback",
                 "title": "No!",
                 "payload": "second",
-              },
-			  {
-                "type": "postback",
-                "title": "Maybe...",
-                "payload": "third",
               }
+			  //,{
+              //  "type": "postback",
+              //  "title": "Maybe...",
+              //  "payload": "third",
+              //}
             ],
           }]
         }
