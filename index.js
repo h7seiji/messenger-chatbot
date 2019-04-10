@@ -90,26 +90,6 @@ function handleMessage(sender_psid, received_message) {
     // will be added to the body of our request to the Send API
     response = {
       "text": `Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.`,
-	  "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no",
-              }
-            ],
-          }]
-        }
-      }
     }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
