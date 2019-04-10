@@ -133,7 +133,7 @@ function handleMessage(sender_psid, received_message) {
             "buttons": [
               {
                 "type": "postback",
-				"url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/"
+				"url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
                 "title": "Centauro",
                 "payload": "first",
               },
