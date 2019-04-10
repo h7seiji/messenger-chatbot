@@ -99,7 +99,7 @@ function handleMessage(sender_psid, received_message) {
           "template_type": "generic",
           "elements": [{
             "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
-            "subtitle": "Escolha um de nossos aplicativos.",
+            "subtitle": "Escolha um dos aplicativos abaixo.",
             "buttons": [
               {
                 "type": "postback",
@@ -110,7 +110,8 @@ function handleMessage(sender_psid, received_message) {
                 "type": "postback",
                 "title": "No!",
                 "payload": "no",
-              }
+              },
+			  
             ],
           }]
         }
@@ -132,13 +133,19 @@ function handleMessage(sender_psid, received_message) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
+				"url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/"
+                "title": "Centauro",
+                "payload": "first",
               },
               {
                 "type": "postback",
                 "title": "No!",
-                "payload": "no",
+                "payload": "second",
+              },
+			  {
+                "type": "postback",
+                "title": "Maybe...",
+                "payload": "third",
               }
             ],
           }]
@@ -159,9 +166,12 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
+  if (payload === 'first') {
     response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
+  } else if (payload === 'second') {
+    response = { "text": "Oops, try sending another image." }
+  }
+  else if (payload === 'third') {
     response = { "text": "Oops, try sending another image." }
   }
   // Send the message to acknowledge the postback
