@@ -103,15 +103,20 @@ function handleMessage(sender_psid, received_message) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
+				"url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
+                "title": "Centauro",
+                "payload": "first",
               },
               {
                 "type": "postback",
                 "title": "No!",
-                "payload": "no",
+                "payload": "second",
               },
-			  
+			  {
+                "type": "postback",
+                "title": "Maybe...",
+                "payload": "third",
+              }
             ],
           }]
         }
@@ -120,16 +125,15 @@ function handleMessage(sender_psid, received_message) {
 	
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
+    // let attachment_url = received_message.attachments[0].payload.url;
     response = {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
+            "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
+            "subtitle": "Escolha um dos aplicativos abaixo.",
             "buttons": [
               {
                 "type": "postback",
