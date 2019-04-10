@@ -1,15 +1,22 @@
 {
-  "name": "messenger-chatbot",
+  "name": "messenger-webhook",
   "version": "1.0.0",
-  "description": "",
+  "description": "a webhook for facebook messenger",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "npm test"
   },
-  "author": "",
+  "keywords": [
+    "messenger",
+    "webhook"
+  ],
+  "author": "Vivian Chan",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.0-rc0",
+    "request": "^2.83.0"
   }
 }

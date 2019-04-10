@@ -24,8 +24,8 @@ const
   mongoose = require('mongoose'),
   app = express().use(body_parser.json()); // creates express http server
 
-var db = mongoose.connect(MONGODB_URI);
-var ChatStatus = require("./models/chatstatus");
+ var db = mongoose.connect(MONGODB_URI);
+ var ChatStatus = require("./models/chatstatus");
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -39,32 +39,32 @@ app.post('/webhook', (req, res) => {
   const body = req.body;
 
   if (body.object === 'page') {
-    // Iterate over each entry
-    // There may be multiple if batched
-    if (body.entry && body.entry.length <= 0){
-      return;
-    }
-    body.entry.forEach((pageEntry) => {
-      // Iterate over each messaging event and handle accordingly
-      pageEntry.messaging.forEach((messagingEvent) => {
-        console.log({messagingEvent});
-        if (messagingEvent.postback) {
-          handlePostback(messagingEvent.sender.id, messagingEvent.postback);
-        } else if (messagingEvent.message) {
-          if (messagingEvent.message.quick_reply){
-            handlePostback(messagingEvent.sender.id, messagingEvent.message.quick_reply);
-          } else{
-            handleMessage(messagingEvent.sender.id, messagingEvent.message);
+      // Iterate over each entry
+      // There may be multiple if batched
+      if (body.entry && body.entry.length <= 0){
+        return;
+      }
+      body.entry.forEach((pageEntry) => {
+        // Iterate over each messaging event and handle accordingly
+        pageEntry.messaging.forEach((messagingEvent) => {
+          console.log({messagingEvent});
+          if (messagingEvent.postback) {
+            handlePostback(messagingEvent.sender.id, messagingEvent.postback);
+          } else if (messagingEvent.message) {
+            if (messagingEvent.message.quick_reply){
+              handlePostback(messagingEvent.sender.id, messagingEvent.message.quick_reply);
+            } else{
+              handleMessage(messagingEvent.sender.id, messagingEvent.message);
+            }
+          } else {
+            console.log(
+              'Webhook received unknown messagingEvent: ',
+              messagingEvent
+            );
           }
-        } else {
-          console.log(
-            'Webhook received unknown messagingEvent: ',
-            messagingEvent
-          );
-        }
+        });
       });
-    });
-  }
+    }
 });
 
 // Accepts GET requests at the /webhook endpoint
@@ -159,9 +159,9 @@ function handleConfirmLocation(sender_psid, geocoding_location, geocoding_format
 
 function handleMessageWithLocationCoordinates(sender_psid, coordinates_lat, coordinates_long){
   const query = {$and: [
-      { 'user_id': sender_psid },
-      { 'status': AUSTRALIA_YES }
-    ]};
+    { 'user_id': sender_psid },
+    { 'status': AUSTRALIA_YES }
+  ]};
   const update = {
     $set: { "location.lat": coordinates_lat, "location.long": coordinates_long, status: AU_LOC_PROVIDED }
   };
@@ -273,33 +273,33 @@ function handleStartSearchNoPostback(sender_psid){
 function handleOtherHelpPostback(sender_psid){
   const campaigns = {
     "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"generic",
-        "elements":[
-          {
-            "title":"We need your help",
-            "image_url":"http://awsassets.panda.org/img/original/wwf_infographic_tropical_deforestation.jpg",
-            "subtitle":"to save our natural world",
-            "buttons":[
-              {
-                "type":"web_url",
-                "url":"https://donate.wwf.org.au/campaigns/rhinoappeal/",
-                "title":"Javan Rhino Appeal"
-              },{
-                "type":"web_url",
-                "url":"https://donate.wwf.org.au/campaigns/donate/#AD",
-                "title":"Adopt an Animal"
-              },{
-                "type":"web_url",
-                "url":"https://donate.wwf.org.au/campaigns/wildcards/",
-                "title":"Send a wildcard"
-              }
-            ]
-          }
-        ]
-      }
-    }
+       "type":"template",
+       "payload":{
+         "template_type":"generic",
+         "elements":[
+            {
+             "title":"We need your help",
+             "image_url":"http://awsassets.panda.org/img/original/wwf_infographic_tropical_deforestation.jpg",
+             "subtitle":"to save our natural world",
+             "buttons":[
+               {
+                 "type":"web_url",
+                 "url":"https://donate.wwf.org.au/campaigns/rhinoappeal/",
+                 "title":"Javan Rhino Appeal"
+               },{
+                 "type":"web_url",
+                 "url":"https://donate.wwf.org.au/campaigns/donate/#AD",
+                 "title":"Adopt an Animal"
+               },{
+                 "type":"web_url",
+                 "url":"https://donate.wwf.org.au/campaigns/wildcards/",
+                 "title":"Send a wildcard"
+               }
+             ]
+           }
+         ]
+       }
+     }
   };
   callSendAPI(sender_psid, campaigns);
 }
@@ -364,46 +364,46 @@ function handlePreferencePostback(sender_psid, chatStatus){
       if (err) {
         console.error("Unable to search Facebook API:" + err);
       } else {
-        console.log("Facebook API result:", body);
-        let bodyJson = JSON.parse(body);
-        let elements = bodyJson.data.filter(d => {
-          if (isNaN(d.location && d.location.latitude) || isNaN(d.location && d.location.longitude)){
-            return false;
-          }
-          return d.location.latitude < chatStatus.location.lat + 0.1 && d.location.latitude > chatStatus.location.lat - 0.1
-            && d.location.longitude < chatStatus.location.long + 0.1 && d.location.longitude > chatStatus.location.long - 0.1
-        }).slice(0,3).map(org => {
-          let element = {
-            "title": org.name,
-            "buttons":[{
-              "type": "web_url",
-              "url": `https://www.facebook.com/${org.id}`,
-              "title": org.name,
-            }]
-          };
-          if (org.category){
-            element["subtitle"] = org.category;
-          }
-
-          if (org.picture && org.picture.data && org.picture.data.url){
-            element["image_url"] = org.picture.data.url;
-          }
-          console.log("Facebook API element:", element);
-          return element;
-        });
-        console.log("Facebook API elements:", elements);
-        const organizationPayload = {
-          "attachment": {
-            "type": "template",
-            "payload": {
-              "template_type": "list",
-              "top_element_style": "compact",
-              "elements": elements
+          console.log("Facebook API result:", body);
+          let bodyJson = JSON.parse(body);
+          let elements = bodyJson.data.filter(d => {
+            if (isNaN(d.location && d.location.latitude) || isNaN(d.location && d.location.longitude)){
+              return false;
             }
-          }
-        };
-        callSendAPI(sender_psid, organizationPayload);
-      }
+            return d.location.latitude < chatStatus.location.lat + 0.1 && d.location.latitude > chatStatus.location.lat - 0.1
+              && d.location.longitude < chatStatus.location.long + 0.1 && d.location.longitude > chatStatus.location.long - 0.1
+          }).slice(0,3).map(org => {
+              let element = {
+                "title": org.name,
+                "buttons":[{
+                  "type": "web_url",
+                  "url": `https://www.facebook.com/${org.id}`,
+                  "title": org.name,
+                }]
+              };
+              if (org.category){
+                element["subtitle"] = org.category;
+              }
+
+              if (org.picture && org.picture.data && org.picture.data.url){
+                element["image_url"] = org.picture.data.url;
+              }
+              console.log("Facebook API element:", element);
+              return element;
+          });
+          console.log("Facebook API elements:", elements);
+          const organizationPayload = {
+            "attachment": {
+              "type": "template",
+              "payload": {
+                "template_type": "list",
+                "top_element_style": "compact",
+                "elements": elements
+              }
+            }
+          };
+          callSendAPI(sender_psid, organizationPayload);
+        }
     });
   }
 }
