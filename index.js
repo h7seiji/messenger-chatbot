@@ -102,10 +102,9 @@ function handleMessage(sender_psid, received_message) {
             "subtitle": "Escolha um dos aplicativos abaixo.",
             "buttons": [
               {
-                "type": "postback",
-              //  "url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
-                "title": "Centauro",
-                "payload": "first",
+                "type": "web_url",
+                "url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
+                "title": "Centauro"
               },
               {
                 "type": "postback",
