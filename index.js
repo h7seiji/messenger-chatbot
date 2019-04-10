@@ -107,13 +107,13 @@ function handleMessage(sender_psid, received_message) {
                 "title": "Centauro"
               },
               {
+                "type": "web_url",
+                "url": "http://www.facebook.com/fbcameraeffects/tryit/825755741096452/",
+                "title": "LIVO"
+              },
+			  {
                 "type": "postback",
-                "title": "No!",
-                "payload": "second",
-              }
-			  ,{
-                "type": "postback",
-                "title": "Maybe...",
+                "title": "Default"
                 "payload": "third",
               }
             ],
@@ -135,19 +135,18 @@ function handleMessage(sender_psid, received_message) {
             "subtitle": "Escolha um dos aplicativos abaixo.",
             "buttons": [
               {
-                "type": "postback",
-				"url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
-                "title": "Centauro",
-                "payload": "first",
+                "type": "web_url",
+                "url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
+                "title": "Centauro"
               },
               {
-                "type": "postback",
-                "title": "No!",
-                "payload": "second",
+                "type": "web_url",
+                "url": "http://www.facebook.com/fbcameraeffects/tryit/825755741096452/",
+                "title": "LIVO"
               },
 			  {
                 "type": "postback",
-                "title": "Maybe...",
+                "title": "Default",
                 "payload": "third",
               }
             ],
