@@ -1,7 +1,6 @@
 'use strict';
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const VERIFY_TOKEN = process.env.VERIFICATION_TOKEN;
 
 // Imports dependencies and set up http server
 const 
@@ -55,6 +54,9 @@ app.post('/webhook', (req, res) => {
 
 // Accepts GET requests at the /webhook endpoint
 app.get('/webhook', (req, res) => {
+	
+  /** UPDATE YOUR VERIFY TOKEN **/
+  const VERIFY_TOKEN = process.env.VERIFICATION_TOKEN;
   
   // Parse params from the webhook verification request
   let mode = req.query['hub.mode'];
@@ -87,7 +89,27 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      "text": `Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.`,
+	  "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Yes!",
+                "payload": "yes",
+              },
+              {
+                "type": "postback",
+                "title": "No!",
+                "payload": "no",
+              }
+            ],
+          }]
+        }
+      }
     }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
