@@ -113,7 +113,7 @@ function handleMessage(sender_psid, received_message) {
               },
 			  {
                 "type": "postback",
-                "title": "Default"
+                "title": "Default",
                 "payload": "third",
               }
             ],
