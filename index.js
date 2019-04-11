@@ -103,18 +103,18 @@ function handleMessage(sender_psid, received_message) {
             "buttons": [
               {
                 "type": "web_url",
-                "url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
+                "url": "http://bit.ly/real2u-centauro",
                 "title": "Centauro"
               },
               {
                 "type": "web_url",
-                "url": "http://www.facebook.com/fbcameraeffects/tryit/825755741096452/",
+                "url": "http://bit.ly/real2u-livo",
                 "title": "LIVO"
               },
 			  {
-                "type": "postback",
-                "title": "Default",
-                "payload": "third",
+                "type": "web_url",
+                "url": "http://bit.ly/real2u-persiana",
+                "title": "Persiana"
               }
             ],
           }]
@@ -136,18 +136,18 @@ function handleMessage(sender_psid, received_message) {
             "buttons": [
               {
                 "type": "web_url",
-                "url": "http://www.facebook.com/fbcameraeffects/tryit/2312976115643324/",
+                "url": "http://bit.ly/real2u-centauro",
                 "title": "Centauro"
               },
               {
                 "type": "web_url",
-                "url": "http://www.facebook.com/fbcameraeffects/tryit/825755741096452/",
+                "url": "http://bit.ly/real2u-livo",
                 "title": "LIVO"
               },
 			  {
-                "type": "postback",
-                "title": "Default",
-                "payload": "third",
+                "type": "web_url",
+                "url": "http://bit.ly/real2u-persiana",
+                "title": "Persiana"
               }
             ],
           }]
