@@ -9,6 +9,38 @@ const
     body_parser = require('body-parser'),
     app = express().use(body_parser.json()); // creates express http server
 
+let response
+
+response = {
+  "attachment": {
+    "type": "template",
+    "payload": {
+      "template_type": "generic",
+      "elements": [{
+        "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
+        "subtitle": "Escolha um dos aplicativos abaixo.",
+        "buttons": [
+          {
+            "type": "web_url",
+            "url": "http://bit.ly/real2u-centauro",
+            "title": "Centauro"
+          },
+          {
+            "type": "web_url",
+            "url": "http://bit.ly/real2u-livo",
+            "title": "LIVO"
+          },
+          {
+            "type": "web_url",
+            "url": "http://bit.ly/real2u-persiana",
+            "title": "Persiana"
+          }
+        ],
+      }]
+    }
+  }
+}
+
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
@@ -82,8 +114,6 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-  let response;
-
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
@@ -92,68 +122,9 @@ function handleMessage(sender_psid, received_message) {
     //   "text": `Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.`,
     // }
 
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
-            "subtitle": "Escolha um dos aplicativos abaixo.",
-            "buttons": [
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-centauro",
-                "title": "Centauro"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-livo",
-                "title": "LIVO"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-persiana",
-                "title": "Persiana"
-              }
-            ],
-          }]
-        }
-      }
-    }
-
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     // let attachment_url = received_message.attachments[0].payload.url;
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
-            "subtitle": "Escolha um dos aplicativos abaixo.",
-            "buttons": [
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-centauro",
-                "title": "Centauro"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-livo",
-                "title": "LIVO"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-persiana",
-                "title": "Persiana"
-              }
-            ],
-          }]
-        }
-      }
-    }
   }
 
   console.log(response.attachment.payload.elements[0])
