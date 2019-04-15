@@ -109,7 +109,7 @@ async function handleMessage(sender_psid, received_message) {
     };
 
     response.attachment.payload.elements[0].buttons = [{}];
-    response.attachment.payload.elements[0].buttons = list;
+    response.attachment.payload.elements[0].buttons.push(list);
 
     // Send the response message
     callSendAPI(sender_psid, response);
@@ -178,11 +178,11 @@ function callChatbotApi() {
         .then(json => {
           let list = [{}];
           for(let k in json) {
-            list[k] = {
+            list.push({
               "type": "web_url",
               "url": json[k].url,
               "title": json[k].name
-            }
+            })
           }
           resolve(list)
         })
