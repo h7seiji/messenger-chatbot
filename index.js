@@ -20,7 +20,7 @@ response = {
       "elements": [{
         "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
         "subtitle": "Escolha um dos aplicativos abaixo.",
-        "buttons": [],
+        
       }]
     }
   }
