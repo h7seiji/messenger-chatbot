@@ -10,23 +10,8 @@ const
     body_parser = require('body-parser'),
     app = express().use(body_parser.json()); // creates express http server
 
-let response
 
-response = {
-  "attachment": {
-    "type": "template",
-    "payload": {
-      "template_type": "generic",
-      "elements": [{
-        "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
-        "subtitle": "Escolha um dos aplicativos abaixo.",
 
-      }]
-    }
-  }
-}
-
-callChatbotApi()
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -101,13 +86,28 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+  let response;
+
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-    // response = {
-    //   "text": `Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.`,
-    // }
+
+    response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
+            "subtitle": "Escolha um dos aplicativos abaixo.",
+
+          }]
+        }
+      }
+    };
+
+    callChatbotApi(response)
 
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
@@ -167,7 +167,7 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
-function callChatbotApi() {
+function callChatbotApi(response) {
   let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
 
   fetch(requestURL)
