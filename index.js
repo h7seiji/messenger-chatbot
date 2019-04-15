@@ -10,10 +10,6 @@ const
     body_parser = require('body-parser'),
     app = express().use(body_parser.json()); // creates express http server
 
-let list = callChatbotApi();
-
-console.log(list);
-
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
@@ -91,6 +87,8 @@ function handleMessage(sender_psid, received_message) {
 
   // Checks if the message contains text
   if (received_message.text) {
+    let list = callChatbotApi();
+
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
