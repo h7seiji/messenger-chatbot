@@ -98,7 +98,8 @@ async function handleMessage(sender_psid, received_message) {
       "attachment": {
         "type": "template",
         "payload": {
-          "template_type": "generic",
+          "template_type": "list",
+          "top_element_style": "compact",
           "elements": [{
             "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
             "subtitle": "Escolha um dos aplicativos abaixo.",
@@ -159,7 +160,7 @@ function callSendAPI(sender_psid, response) {
     "json": request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log(request_body.message.attachment.payload.elements[0]);
+      console.log(request_body.message);
       console.log('message sent!')
     } else {
       console.error("Unable to send message:" + err);
