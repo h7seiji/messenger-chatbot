@@ -20,11 +20,13 @@ response = {
       "elements": [{
         "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
         "subtitle": "Escolha um dos aplicativos abaixo.",
-        
+
       }]
     }
   }
 }
+
+callChatbotApi()
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -170,6 +172,8 @@ function callChatbotApi() {
   fetch(requestURL)
       .then(res => res.json())
       .then(json => {
+        response.attachment.payload.elements[0].buttons = [];
+
         for(let k in json) {
           response.attachment.payload.elements[0].buttons[k] = {
             "type": "web_url",
@@ -177,6 +181,6 @@ function callChatbotApi() {
             "title": json[k].name
           }
         }
-        // console.log(response.attachment.payload.elements[0])
+        console.log(response.attachment.payload.elements[0])
       });
 }
