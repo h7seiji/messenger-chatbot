@@ -108,9 +108,10 @@ async function handleMessage(sender_psid, received_message) {
       }
     };
 
-    response.attachment.payload.elements[0].buttons = [];
+    response.attachment.payload.elements[0].buttons = [{}];
     response.attachment.payload.elements[0].buttons = list;
 
+    // Send the response message
     callSendAPI(sender_psid, response);
 
   } else if (received_message.attachments) {
@@ -118,7 +119,6 @@ async function handleMessage(sender_psid, received_message) {
     // let attachment_url = received_message.attachments[0].payload.url;
   }
 
-  // Send the response message
 }
 
 // Handles messaging_postbacks events
@@ -176,7 +176,7 @@ function callChatbotApi() {
     fetch(requestURL)
         .then(res => res.json())
         .then(json => {
-          let list = [];
+          let list = [{}];
           for(let k in json) {
             list[k] = {
               "type": "web_url",
