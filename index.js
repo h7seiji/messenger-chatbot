@@ -10,8 +10,7 @@ const
     body_parser = require('body-parser'),
     app = express().use(body_parser.json()); // creates express http server
 
-
-
+let list = callChatbotApi()
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -107,7 +106,7 @@ function handleMessage(sender_psid, received_message) {
       }
     };
 
-    callChatbotApi(response)
+    response.attachment.payload.elements[0].buttons = list;
 
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
@@ -167,21 +166,21 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
-function callChatbotApi(response) {
+function callChatbotApi() {
   let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
 
+  let buttons = [];
   fetch(requestURL)
       .then(res => res.json())
       .then(json => {
-        response.attachment.payload.elements[0].buttons = [];
-
         for(let k in json) {
-          response.attachment.payload.elements[0].buttons[k] = {
+          buttons[k] = {
             "type": "web_url",
             "url": json[k].url,
             "title": json[k].name
           }
         }
-        console.log(response.attachment.payload.elements[0])
+        // console.log(buttons);
+        return buttons
       });
 }
