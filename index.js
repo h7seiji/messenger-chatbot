@@ -87,7 +87,9 @@ async function handleMessage(sender_psid, received_message) {
 
   // Checks if the message contains text
   if (received_message.text) {
-    let list = await callChatbotApi();
+    const list = await callChatbotApi();
+
+    console.log(list)
 
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
@@ -180,7 +182,6 @@ function callChatbotApi() {
               "title": json[k].name
             }
           }
-          console.log(list);
           resolve(list)
         })
   })
