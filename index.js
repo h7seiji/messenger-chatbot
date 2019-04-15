@@ -108,7 +108,7 @@ async function handleMessage(sender_psid, received_message) {
       }
     };
 
-    response.attachment.payload.elements[0].buttons = [{}];
+    // response.attachment.payload.elements[0].buttons = [];
     response.attachment.payload.elements[0].buttons.push(list);
 
     // Send the response message
@@ -176,7 +176,7 @@ function callChatbotApi() {
     fetch(requestURL)
         .then(res => res.json())
         .then(json => {
-          let list = [{}];
+          let list = [];
           for(let k in json) {
             list.push({
               "type": "web_url",
