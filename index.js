@@ -10,7 +10,11 @@ const
     body_parser = require('body-parser'),
     app = express().use(body_parser.json()); // creates express http server
 
-let list = callChatbotApi()
+let list = [];
+
+callChatbotApi();
+
+console.log(list);
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -170,18 +174,16 @@ function callSendAPI(sender_psid, response) {
 function callChatbotApi() {
   let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
 
-  let buttons = [];
   fetch(requestURL)
       .then(res => res.json())
       .then(json => {
         for(let k in json) {
-          buttons[k] = {
+          list[k] = {
             "type": "web_url",
             "url": json[k].url,
             "title": json[k].name
           }
         }
-        // console.log(buttons);
-        return buttons
+        console.log(list);
       });
 }
