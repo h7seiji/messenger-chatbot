@@ -20,23 +20,7 @@ response = {
       "elements": [{
         "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
         "subtitle": "Escolha um dos aplicativos abaixo.",
-        "buttons": [
-          {
-            "type": "web_url",
-            "url": "http://bit.ly/real2u-centauro",
-            "title": "Centauro"
-          },
-          {
-            "type": "web_url",
-            "url": "http://bit.ly/real2u-livo",
-            "title": "LIVO"
-          },
-          {
-            "type": "web_url",
-            "url": "http://bit.ly/real2u-persiana",
-            "title": "Persiana"
-          }
-        ],
+        "buttons": [],
       }]
     }
   }
