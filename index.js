@@ -106,6 +106,7 @@ function handleMessage(sender_psid, received_message) {
       }
     };
 
+    response.attachment.payload.elements[0].buttons = [];
     response.attachment.payload.elements[0].buttons = list;
 
   } else if (received_message.attachments) {
