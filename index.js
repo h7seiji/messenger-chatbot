@@ -156,6 +156,8 @@ function handleMessage(sender_psid, received_message) {
     }
   }
 
+  console.log(response.attachment.payload.elements[0])
+
   // Send the response message
   callSendAPI(sender_psid, response);
 }
