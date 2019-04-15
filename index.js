@@ -3,11 +3,33 @@
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Imports dependencies and set up http server
-const 
+const
+  fetch = require('node-fetch'),
   request = require('request'),
   express = require('express'),
   body_parser = require('body-parser'),
   app = express().use(body_parser.json()); // creates express http server
+
+// Initialize response JSON
+let response
+
+response = {
+  "attachment": {
+    "type": "template",
+    "payload": {
+      "template_type": "generic",
+      "elements": [{
+        "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
+        "subtitle": "Escolha um dos aplicativos abaixo.",
+        "buttons": [],
+      }]
+    }
+  }
+}
+
+// Get information from the sheets API
+callChatbotApi();
+
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -82,81 +104,20 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-  let response;
-  
+
   // Checks if the message contains text
   if (received_message.text) {    
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-    // response = {
-    //   "text": `Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.`,
-    // }
-	
-	response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
-            "subtitle": "Escolha um dos aplicativos abaixo.",
-            "buttons": [
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-centauro",
-                "title": "Centauro"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-livo",
-                "title": "LIVO"
-              },
-			  {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-persiana",
-                "title": "Persiana"
-              }
-            ],
-          }]
-        }
-      }
-    }
-	
+
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     // let attachment_url = received_message.attachments[0].payload.url;
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
-            "subtitle": "Escolha um dos aplicativos abaixo.",
-            "buttons": [
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-centauro",
-                "title": "Centauro"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-livo",
-                "title": "LIVO"
-              },
-			  {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-persiana",
-                "title": "Persiana"
-              }
-            ],
-          }]
-        }
-      }
-    }
   }
 
   // Send the response message
+  console.log(response)
+  
   callSendAPI(sender_psid, response);   
 }
 
@@ -189,7 +150,7 @@ function callSendAPI(sender_psid, response) {
     },
     "message": response
   }
-  
+
   
   // Send the HTTP request to the Messenger Platform
   request({
@@ -204,4 +165,21 @@ function callSendAPI(sender_psid, response) {
       console.error("Unable to send message:" + err);
     }
   }); 
+}
+
+function callChatbotApi() {
+  let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
+
+  fetch(requestURL)
+      .then(res => res.json())
+      .then(json => {
+        for(let k in json) {
+          response.attachment.payload.elements[0].buttons[k] = {
+            "type": "web_url",
+            "url": json[k].url,
+            "title": json[k].name
+          }
+        }
+        // console.log(response.attachment.payload.elements[0].buttons)
+      });
 }
