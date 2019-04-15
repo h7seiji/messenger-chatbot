@@ -10,9 +10,7 @@ const
     body_parser = require('body-parser'),
     app = express().use(body_parser.json()); // creates express http server
 
-let list = [];
-
-callChatbotApi();
+let list = callChatbotApi();
 
 console.log(list);
 
@@ -118,8 +116,6 @@ function handleMessage(sender_psid, received_message) {
     // let attachment_url = received_message.attachments[0].payload.url;
   }
 
-  console.log(response.attachment.payload.elements[0])
-
   // Send the response message
   callSendAPI(sender_psid, response);
 }
@@ -152,7 +148,7 @@ function callSendAPI(sender_psid, response) {
       "id": sender_psid
     },
     "message": response
-  }
+  };
 
 
   // Send the HTTP request to the Messenger Platform
@@ -163,7 +159,7 @@ function callSendAPI(sender_psid, response) {
     "json": request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log(request_body.message.attachment.payload.elements[0])
+      console.log(request_body.message.attachment.payload.elements);
       console.log('message sent!')
     } else {
       console.error("Unable to send message:" + err);
@@ -174,16 +170,20 @@ function callSendAPI(sender_psid, response) {
 function callChatbotApi() {
   let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
 
-  fetch(requestURL)
-      .then(res => res.json())
-      .then(json => {
-        for(let k in json) {
-          list[k] = {
-            "type": "web_url",
-            "url": json[k].url,
-            "title": json[k].name
+  return new Promise((resolve, reject) => {
+    fetch(requestURL)
+        .then(res => res.json())
+        .then(json => {
+          let list = [];
+          for(let k in json) {
+            list[k] = {
+              "type": "web_url",
+              "url": json[k].url,
+              "title": json[k].name
+            }
           }
-        }
-        console.log(list);
-      });
+          console.log(list);
+          resolve(list)
+        })
+  })
 }
