@@ -27,10 +27,6 @@ response = {
   }
 }
 
-// Get information from the sheets API
-callChatbotApi();
-
-
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
@@ -110,14 +106,17 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
+    // Get information from the sheets API
+    callChatbotApi();
+
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     // let attachment_url = received_message.attachments[0].payload.url;
   }
 
   // Send the response message
-  console.log(response)
-  
+  console.log(response.attachment.payload.elements[0])
+
   callSendAPI(sender_psid, response);   
 }
 
@@ -180,6 +179,6 @@ function callChatbotApi() {
             "title": json[k].name
           }
         }
-        // console.log(response.attachment.payload.elements[0].buttons)
+        // console.log(response.attachment.payload.elements[0])
       });
 }
