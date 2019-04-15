@@ -87,10 +87,6 @@ async function handleMessage(sender_psid, received_message) {
 
   // Checks if the message contains text
   if (received_message.text) {
-    const list = await callChatbotApi();
-
-    console.log(list)
-
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
@@ -102,17 +98,21 @@ async function handleMessage(sender_psid, received_message) {
           "elements": [{
             "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
             "subtitle": "Escolha um dos aplicativos abaixo.",
-
+            "buttons": []
           }]
         }
       }
     };
 
-    response.attachment.payload.elements[0].buttons = [];
-    response.attachment.payload.elements[0].buttons.push(list);
+    const list = await callChatbotApi(response);
+
+    console.log(list)
+
+    // response.attachment.payload.elements[0].buttons = [];
+    // response.attachment.payload.elements[0].buttons.push(list);
 
     // Send the response message
-    callSendAPI(sender_psid, response);
+    callSendAPI(sender_psid, list);
 
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
@@ -169,22 +169,21 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
-function callChatbotApi() {
+function callChatbotApi(response) {
   let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
 
   return new Promise((resolve, reject) => {
     fetch(requestURL)
         .then(res => res.json())
         .then(json => {
-          let list = [];
           for(let k in json) {
-            list.push({
+            response.attachment.payload.elements[0].buttons.push({
               "type": "web_url",
               "url": json[k].url,
               "title": json[k].name
             })
           }
-          resolve(list)
+          resolve(response)
         })
   })
 }
