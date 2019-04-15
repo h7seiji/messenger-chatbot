@@ -98,33 +98,19 @@ async function handleMessage(sender_psid, received_message) {
           "elements": [{
             "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
             "subtitle": "Escolha um dos aplicativos abaixo.",
-            "buttons": [{
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-centauro",
-                "title": "Centauro"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-livo",
-                "title": "LIVO"
-              },
-              {
-                "type": "web_url",
-                "url": "http://bit.ly/real2u-persiana",
-                "title": "Persiana"
-              }]
+            "buttons": []
           }]
         }
       }
     };
 
-    // const list = await callChatbotApi(response);
+    const list = await callChatbotApi(response);
 
     // response.attachment.payload.elements[0].buttons = [];
     // response.attachment.payload.elements[0].buttons.push(list);
 
     // Send the response message
-    callSendAPI(sender_psid, response);
+    callSendAPI(sender_psid, list);
 
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
