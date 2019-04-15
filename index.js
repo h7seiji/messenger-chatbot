@@ -4,6 +4,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Imports dependencies and set up http server
 const
+    fetch = require('node-fetch'),
     request = require('request'),
     express = require('express'),
     body_parser = require('body-parser'),
@@ -177,4 +178,21 @@ function callSendAPI(sender_psid, response) {
       console.error("Unable to send message:" + err);
     }
   });
+}
+
+function callChatbotApi() {
+  let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
+
+  fetch(requestURL)
+      .then(res => res.json())
+      .then(json => {
+        for(let k in json) {
+          response.attachment.payload.elements[0].buttons[k] = {
+            "type": "web_url",
+            "url": json[k].url,
+            "title": json[k].name
+          }
+        }
+        // console.log(response.attachment.payload.elements[0])
+      });
 }
