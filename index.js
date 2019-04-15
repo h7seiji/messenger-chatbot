@@ -106,8 +106,6 @@ async function handleMessage(sender_psid, received_message) {
 
     const list = await callChatbotApi(response);
 
-    console.log(list)
-
     // response.attachment.payload.elements[0].buttons = [];
     // response.attachment.payload.elements[0].buttons.push(list);
 
@@ -161,6 +159,8 @@ function callSendAPI(sender_psid, response) {
   }, (err, res, body) => {
     if (!err) {
       console.log(request_body.message);
+      console.log(request_body.message.attachment.payload);
+      console.log(request_body.message.attachment.payload.elements);
       console.log(request_body.message.attachment.payload.elements[0]);
       console.log('message sent!')
     } else {
