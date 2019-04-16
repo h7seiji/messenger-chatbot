@@ -179,26 +179,26 @@ function callChatbotApi(response, start) {
         .then(res => res.json())
         .then(json => {
           let added = 0;
-          let counter;
+          let counter = start;
           while (added < 3) {
-            for(counter in json) {
-              if (counter < start) continue;
+            counter++;
+            // noinspection JSUnfilteredForInLoop
+            if (json[counter].title && json[counter].subtitle && json[counter].image_url && json[counter].url){
               // noinspection JSUnfilteredForInLoop
-              if (json[counter].title && json[counter].subtitle && json[counter].image_url && json[counter].url){
-                // noinspection JSUnfilteredForInLoop
-                response.attachment.payload.elements.push({
-                  "title": json[counter].title,
-                  "subtitle": json[counter].subtitle,
-                  "image_url": json[counter].image_url,
-                  "default_action": {
-                    "type": "web_url",
-                    "url": json[counter].url,
-                    "messenger_extensions": false,
-                    "webview_height_ratio": "tall"
-                  }
-                });
-                added++;
-              }
+              response.attachment.payload.elements.push({
+                "title": json[counter].title,
+                "subtitle": json[counter].subtitle,
+                "image_url": json[counter].image_url,
+                "default_action": {
+                  "type": "web_url",
+                  "url": json[counter].url,
+                  "messenger_extensions": false,
+                  "webview_height_ratio": "tall"
+                }
+              });
+              added++;
+            } else {
+              counter = -1;
             }
           }
           response.attachment.payload.buttons.push({
