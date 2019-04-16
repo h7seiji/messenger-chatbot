@@ -83,41 +83,16 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
-  let response;
+  let response = await getDefaultResponse();
 
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "list",
-          "top_element_style": "large",
-          "sharable": true,
-          "elements": [
-            {
-              "title": "Olá, bem-vindo à experiência Real2U.",
-              "subtitle": "Escolha um dos aplicativos abaixo.",
-              "image_url": "https://www.real2u.com.br/img/index-logo-real2u@2x.png",
-              "default_action": {
-                "type": "web_url",
-                "url": "https://www.real2u.com.br/",
-                "messenger_extensions": false,
-                "webview_height_ratio": "tall"
-              }
-            },
-          ]
-        }
-      }
-    };
+    response.attachment.payload.buttons[0].push({"payload": 0});
 
     const list = await callChatbotApi(response);
-
-    // response.attachment.payload.elements[0].buttons = [];
-    // response.attachment.payload.elements[0].buttons.push(list);
 
     // Send the response message
     callSendAPI(sender_psid, list);
@@ -130,11 +105,14 @@ async function handleMessage(sender_psid, received_message) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
-  let response;
+async function handlePostback(sender_psid, received_postback) {
+  let response = await getDefaultResponse();
 
   // Get the payload for the postback
   let payload = received_postback.payload;
+
+
+
 
   // Set the response based on the postback payload
   if (payload === 'first') {
@@ -178,6 +156,38 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
+function getDefaultResponse() {
+  return {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "list",
+        "top_element_style": "large",
+        "sharable": true,
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "VIEW MORE",
+          }
+        ],
+        "elements": [
+          {
+            "title": "Olá, bem-vindo à experiência Real2U.",
+            "subtitle": "Escolha um dos aplicativos abaixo.",
+            "image_url": "https://www.real2u.com.br/img/index-logo-real2u@2x.png",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://www.real2u.com.br/",
+              "messenger_extensions": false,
+              "webview_height_ratio": "tall"
+            }
+          },
+        ]
+      }
+    }
+  }
+}
+
 function callChatbotApi(response) {
   let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
 
@@ -186,7 +196,7 @@ function callChatbotApi(response) {
         .then(res => res.json())
         .then(json => {
           for(let k in json) {
-            if (k < 3){
+            if (k < 3 && json[k].title && json[k].subtitle && json[k].image_url && json[k].url){
               response.attachment.payload.elements.push({
                 "title": json[k].title,
                 "subtitle": json[k].subtitle,
