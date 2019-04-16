@@ -99,7 +99,7 @@ async function handleMessage(sender_psid, received_message) {
           "sharable": "true",
           "elements": [
             {
-              "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
+              "title": "Olá, bem-vindo à experiência Real2U.",
               "subtitle": "Escolha um dos aplicativos abaixo."
             },
           ]
@@ -164,7 +164,6 @@ function callSendAPI(sender_psid, response) {
       console.log(request_body.message);
       console.log(request_body.message.attachment.payload);
       console.log(request_body.message.attachment.payload.elements);
-      console.log(request_body.message.attachment.payload.elements[0]);
       console.log('message sent!')
     } else {
       console.error("Unable to send message:" + err);
@@ -188,7 +187,7 @@ function callChatbotApi(response) {
                 "default_action": {
                   "type": "web_url",
                   "url": json[k].url,
-                  "messenger_extensions": "true"
+                  "messenger_extensions": "false"
                 }
               })
             }
