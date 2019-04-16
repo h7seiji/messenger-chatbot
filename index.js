@@ -113,7 +113,7 @@ async function handleMessage(sender_psid, received_message) {
                 "type": "web_url",
                 "url": "http://bit.ly/real2u-persiana",
                 "title": "Persiana"
-              }
+              },
               {
                 "type": "web_url",
                 "url": "http://bit.ly/real2u-mullen-lowe",
