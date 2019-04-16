@@ -95,7 +95,7 @@ async function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
           "template_type": "list",
-          "top_element_style": "compact",
+          "top_element_style": "large",
           "sharable": "true",
           "elements": [
             {
