@@ -94,12 +94,15 @@ async function handleMessage(sender_psid, received_message) {
       "attachment": {
         "type": "template",
         "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
-            "subtitle": "Escolha um dos aplicativos abaixo.",
-            "buttons": []
-          }]
+          "template_type": "list",
+          "top_element_style": "large",
+          "sharable": "true",
+          "elements": [
+            {
+              "title": "Olá, bem-vindo à experiência Real2U. Veja alguns de nossos produtos.",
+              "subtitle": "Escolha um dos aplicativos abaixo."
+            },
+          ]
         }
       }
     };
@@ -177,11 +180,18 @@ function callChatbotApi(response) {
         .then(res => res.json())
         .then(json => {
           for(let k in json) {
-            response.attachment.payload.elements[0].buttons.push({
-              "type": "web_url",
-              "url": json[k].url,
-              "title": json[k].name
-            })
+            if (k < 3){
+              response.attachment.payload.elements.push({
+                "title": json[k].title,
+                "subtitle": json[k].subtitle,
+                "image_url": json[k].image_url,
+                "default_action": {
+                  "type": "web_url",
+                  "url": json[k].url,
+                  "messenger_extensions": "true"
+                }
+              })
+            }
           }
           resolve(response)
         })
