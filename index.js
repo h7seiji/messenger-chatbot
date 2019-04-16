@@ -90,13 +90,7 @@ async function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
-    response.attachment.payload.buttons.push({
-      "type": "postback",
-      "title": "VIEW MORE",
-      "payload": 0
-    });
-
-    const list = await callChatbotApi(response);
+    const list = await callChatbotApi(response, 0);
 
     // Send the response message
     callSendAPI(sender_psid, list);
@@ -115,20 +109,10 @@ async function handlePostback(sender_psid, received_postback) {
   // Get the payload for the postback
   let payload = received_postback.payload;
 
+  const list = await callChatbotApi(response, payload);
 
-
-
-  // Set the response based on the postback payload
-  if (payload === 'first') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'second') {
-    response = { "text": "Oops, try sending another image." }
-  }
-  else if (payload === 'third') {
-    response = { "text": "Oops, try sending another image." }
-  }
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  callSendAPI(sender_psid, list);
 }
 
 // Sends response messages via the Send API
@@ -187,28 +171,41 @@ function getDefaultResponse() {
   }
 }
 
-function callChatbotApi(response) {
+function callChatbotApi(response, start) {
   let requestURL = 'https://script.google.com/a/real2u.com.br/macros/s/AKfycbwe0PFwralZXBn5wNdSyIbmArWnzbKcIC6gVv-u/exec';
 
   return new Promise((resolve, reject) => {
     fetch(requestURL)
         .then(res => res.json())
         .then(json => {
-          for(let k in json) {
-            if (k < 3 && json[k].title && json[k].subtitle && json[k].image_url && json[k].url){
-              response.attachment.payload.elements.push({
-                "title": json[k].title,
-                "subtitle": json[k].subtitle,
-                "image_url": json[k].image_url,
-                "default_action": {
-                  "type": "web_url",
-                  "url": json[k].url,
-                  "messenger_extensions": false,
-                  "webview_height_ratio": "tall"
-                }
-            })
+          let added = 0;
+          let counter;
+          while (added < 3) {
+            for(counter in json) {
+              if (counter < start) continue;
+              // noinspection JSUnfilteredForInLoop
+              if (json[counter].title && json[counter].subtitle && json[counter].image_url && json[counter].url){
+                // noinspection JSUnfilteredForInLoop
+                response.attachment.payload.elements.push({
+                  "title": json[counter].title,
+                  "subtitle": json[counter].subtitle,
+                  "image_url": json[counter].image_url,
+                  "default_action": {
+                    "type": "web_url",
+                    "url": json[counter].url,
+                    "messenger_extensions": false,
+                    "webview_height_ratio": "tall"
+                  }
+                });
+                added++;
+              }
             }
           }
+          response.attachment.payload.buttons.push({
+            "type": "postback",
+            "title": "VIEW MORE",
+            "payload": counter
+          });
           resolve(response)
         })
   })
