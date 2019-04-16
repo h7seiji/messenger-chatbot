@@ -190,7 +190,16 @@ function callChatbotApi(response) {
                 //   "messenger_extensions": "true",
                 //   "webview_height_ratio": "tall"
                 // }
-              })
+                "buttons": [
+                  {
+                    "title": "View",
+                    "type": "web_url",
+                    "url": json[k].url,
+                    "messenger_extensions": true,
+                    "webview_height_ratio": "tall",
+                  }
+                ]
+            })
             }
           }
           resolve(response)
