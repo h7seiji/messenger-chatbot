@@ -95,25 +95,28 @@ async function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
           "template_type": "list",
-          "top_element_style": "compact",
+          "top_element_style": "large",
           "sharable": "true",
           "elements": [
             {
               "title": "Olá, bem-vindo à experiência Real2U.",
               "subtitle": "Escolha um dos aplicativos abaixo."
-            },
+            },          {
+              "title": "Olá, bem-vindo à experiência Real2U.",
+              "subtitle": "Escolha um dos aplicativos abaixo."
+            }
           ]
         }
       }
     };
 
-    const list = await callChatbotApi(response);
+    // const list = await callChatbotApi(response);
 
     // response.attachment.payload.elements[0].buttons = [];
     // response.attachment.payload.elements[0].buttons.push(list);
 
     // Send the response message
-    callSendAPI(sender_psid, list);
+    callSendAPI(sender_psid, response);
 
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
