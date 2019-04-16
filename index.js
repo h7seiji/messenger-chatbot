@@ -90,7 +90,11 @@ async function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
-    response.attachment.payload.buttons[0].push({"payload": 0});
+    response.attachment.payload.buttons.push({
+      "type": "postback",
+      "title": "VIEW MORE",
+      "payload": 0
+    });
 
     const list = await callChatbotApi(response);
 
@@ -164,12 +168,7 @@ function getDefaultResponse() {
         "template_type": "list",
         "top_element_style": "large",
         "sharable": true,
-        "buttons": [
-          {
-            "type": "postback",
-            "title": "VIEW MORE",
-          }
-        ],
+        "buttons": [],
         "elements": [
           {
             "title": "Olá, bem-vindo à experiência Real2U.",
