@@ -95,7 +95,7 @@ async function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
           "template_type": "list",
-          "top_element_style": "large",
+          "top_element_style": "compact",
           "sharable": "true",
           "elements": [
             {
@@ -187,12 +187,12 @@ function callChatbotApi(response) {
                 "title": json[k].title,
                 "subtitle": json[k].subtitle,
                 // "image_url": json[k].image_url,
-                "default_action": {
-                  "type": "web_url",
-                  "url": json[k].url,
-                  "messenger_extensions": "true",
-                  "webview_height_ratio": "tall"
-                }
+                // "default_action": {
+                //   "type": "web_url",
+                //   "url": json[k].url,
+                //   "messenger_extensions": "true",
+                //   "webview_height_ratio": "tall"
+                // }
               })
             }
           }
