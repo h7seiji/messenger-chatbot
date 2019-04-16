@@ -184,7 +184,7 @@ function callChatbotApi(response) {
               response.attachment.payload.elements.push({
                 "title": json[k].title,
                 "subtitle": json[k].subtitle,
-                "image_url": json[k].image_url,
+                // "image_url": json[k].image_url,
                 "default_action": {
                   "type": "web_url",
                   "url": json[k].url,
