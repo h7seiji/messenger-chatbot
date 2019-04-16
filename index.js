@@ -101,22 +101,19 @@ async function handleMessage(sender_psid, received_message) {
             {
               "title": "Olá, bem-vindo à experiência Real2U.",
               "subtitle": "Escolha um dos aplicativos abaixo."
-            },          {
-              "title": "Olá, bem-vindo à experiência Real2U.",
-              "subtitle": "Escolha um dos aplicativos abaixo."
-            }
+            },
           ]
         }
       }
     };
 
-    // const list = await callChatbotApi(response);
+    const list = await callChatbotApi(response);
 
     // response.attachment.payload.elements[0].buttons = [];
     // response.attachment.payload.elements[0].buttons.push(list);
 
     // Send the response message
-    callSendAPI(sender_psid, response);
+    callSendAPI(sender_psid, list);
 
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
