@@ -187,7 +187,7 @@ function callChatbotApi(response) {
                 "default_action": {
                   "type": "web_url",
                   "url": json[k].url,
-                  "messenger_extensions": "false"
+                  "messenger_extensions": "true"
                 }
               })
             }
