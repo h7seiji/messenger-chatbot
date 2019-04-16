@@ -96,7 +96,7 @@ async function handleMessage(sender_psid, received_message) {
         "payload": {
           "template_type": "list",
           "top_element_style": "large",
-          "sharable": "true",
+          "sharable": true,
           "elements": [
             {
               "title": "Olá, bem-vindo à experiência Real2U.",
@@ -190,11 +190,11 @@ function callChatbotApi(response) {
               response.attachment.payload.elements.push({
                 "title": json[k].title,
                 "subtitle": json[k].subtitle,
-                // "image_url": json[k].image_url,
+                "image_url": json[k].image_url,
                 // "default_action": {
                 //   "type": "web_url",
                 //   "url": json[k].url,
-                //   "messenger_extensions": "true",
+                //   "messenger_extensions": false,
                 //   "webview_height_ratio": "tall"
                 // }
             })
