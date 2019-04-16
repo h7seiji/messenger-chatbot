@@ -101,7 +101,7 @@ async function handleMessage(sender_psid, received_message) {
             {
               "title": "Olá, bem-vindo à experiência Real2U.",
               "subtitle": "Escolha um dos aplicativos abaixo.",
-              "image_url": "https://www.real2u.com.br/img/index-logo-real2u@2x.png"
+              "image_url": "https://www.real2u.com.br/img/index-logo-real2u@2x.png",
               "default_action": {
                 "type": "web_url",
                 "url": "https://www.real2u.com.br/",
