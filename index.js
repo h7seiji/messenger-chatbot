@@ -101,7 +101,10 @@ async function handleMessage(sender_psid, received_message) {
             {
               "title": "Olá, bem-vindo à experiência Real2U.",
               "subtitle": "Escolha um dos aplicativos abaixo."
-            },
+            },          {
+              "title": "Olá, bem-vindo à experiência Real2U.",
+              "subtitle": "Escolha um dos aplicativos abaixo."
+            }
           ]
         }
       }
