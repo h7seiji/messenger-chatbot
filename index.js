@@ -181,9 +181,8 @@ function callChatbotApi(response, start) {
           let added = 0;
           let counter = start;
           while (added < 3) {
-            counter++;
             // noinspection JSUnfilteredForInLoop
-            if (json[counter].title && json[counter].subtitle && json[counter].image_url && json[counter].url){
+            if (json[counter] && json[counter].title && json[counter].subtitle && json[counter].image_url && json[counter].url){
               // noinspection JSUnfilteredForInLoop
               response.attachment.payload.elements.push({
                 "title": json[counter].title,
@@ -196,9 +195,10 @@ function callChatbotApi(response, start) {
                   "webview_height_ratio": "tall"
                 }
               });
+              counter++;
               added++;
             } else {
-              counter = -1;
+              counter = 0;
             }
           }
           response.attachment.payload.buttons.push({
